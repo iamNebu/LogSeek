@@ -1,0 +1,15 @@
+# 1. Generate realistic server.log (200k lines) and new_lines.log (20k lines)
+python logseek_2.py generate server.log --append-out new_lines.log
+
+# 2. Build the neural learned index and run the exactness demo
+python logseek_2.py build server.log
+python logseek_2.py demo server.log
+
+# 3. Query ERROR logs in a specific time window with a single disk seek
+python logseek_2.py query server.log --date 2026-11-10 --start 12:15:00 --end 12:16:00
+
+# 4. Append new streaming logs and fine-tune TimeNet via warm-started Adam
+python logseek_2.py append server.log new_lines.log
+
+# 5. Generate the 3-panel research figure (logseek_paper_results.png)
+python logseek_2.py benchmark server.log
